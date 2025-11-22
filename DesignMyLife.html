@@ -1,0 +1,2486 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>找到屬於你的人生價值｜人生使命旅程遊戲</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #6b8cff 0, #1c1b3f 40%, #040014 100%);
+      color: #f8f4ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      min-height: 80vh;
+      background: rgba(10, 8, 35, 0.9);
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    p {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .screen {
+      display: none;
+      height: 100%;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 4px;
+      opacity: 0.9;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(12, 10, 40, 0.9);
+      color: #f8f4ff;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      margin-top: 4px;
+    }
+
+    .radio-group label,
+    .checkbox-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+    }
+
+    .checkbox-pill input {
+      accent-color: #f5ce6a;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f5ce6a, #ff9f6a);
+      color: #2a1b38;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 12px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s;
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #f8f4ff;
+      box-shadow: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      opacity: 0.9;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin: 10px 0 4px;
+      font-weight: 600;
+      color: #f5ce6a;
+    }
+
+    .small-text {
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 0.78rem;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: rgba(245, 206, 106, 0.08);
+      border: 1px solid rgba(245, 206, 106, 0.35);
+      color: #f5ce6a;
+    }
+
+    .setup-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .card {
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), rgba(8, 6, 28, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      min-height: 140px;
+    }
+
+    .counter-text {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
+
+    /* Journey screen */
+    .journey-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .progress-text {
+      font-size: 0.82rem;
+      opacity: 0.85;
+    }
+
+    .timer {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f5ce6a;
+    }
+
+    .timer span {
+      font-size: 1.1rem;
+    }
+
+    .question-card {
+      margin-top: 6px;
+      border-radius: 16px;
+      padding: 14px;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.06), rgba(15, 8, 40, 0.96));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .question-title {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      color: #f5ce6a;
+    }
+
+    .question-desc {
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 640px) {
+      .choices {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .choice-btn {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+      white-space: normal;
+      line-height: 1.4;
+    }
+
+    .mini-log {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      opacity: 0.75;
+      max-height: 90px;
+      overflow-y: auto;
+    }
+
+    .mini-log p {
+      margin-bottom: 4px;
+    }
+
+    /* Modal */
+    .modal {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.65), rgba(16, 10, 52, 0.95));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 20;
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      max-width: 520px;
+      width: 100%;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.06), rgba(7, 4, 30, 0.98));
+      border-radius: 18px;
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(245, 206, 106, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+      color: #f5ce6a;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+      margin: 10px 0;
+    }
+
+    /* Reflection & Summary */
+    .reflection-textarea {
+      margin-top: 8px;
+    }
+
+    .summary-section {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.035);
+      font-size: 0.86rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .summary-section h3 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: #f5ce6a;
+    }
+
+    .summary-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .summary-list span {
+      font-size: 0.8rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(245, 206, 106, 0.1);
+      border: 1px solid rgba(245, 206, 106, 0.4);
+      color: #f5ce6a;
+    }
+
+    .summary-log {
+      max-height: 120px;
+      overflow-y: auto;
+      font-size: 0.78rem;
+      margin-top: 4px;
+    }
+
+    .summary-log p {
+      margin-bottom: 4px;
+    }
+
+    .starry {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.18) 0, transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.12) 0, transparent 50%),
+        radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.08) 0, transparent 55%);
+      opacity: 0.15;
+    }
+
+    /* Mission screen */
+    .mission-section {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mission-section h3 {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #f5ce6a;
+    }
+
+    .mission-subtitle {
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .mission-multi-inputs input {
+      margin-bottom: 6px;
+    }
+
+    #radar-canvas {
+      width: 100%;
+      max-width: 420px;
+      margin-top: 8px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    /* 報告書排版 */
+    .report-card {
+      border-radius: 18px;
+      padding: 14px 16px 16px;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.06), rgba(6, 2, 24, 0.96));
+      border: 1px solid rgba(245, 206, 106, 0.5);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+      max-height: 72vh;
+      overflow-y: auto;
+    }
+
+    .report-header {
+      text-align: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(245, 206, 106, 0.5);
+    }
+
+    .report-title {
+      font-size: 1.4rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .report-subtitle {
+      font-size: 0.86rem;
+      opacity: 0.85;
+    }
+
+    .report-meta {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+
+    .report-section {
+      margin-top: 10px;
+    }
+
+    .report-section h3 {
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+      color: #f5ce6a;
+    }
+
+    .report-caption {
+      font-size: 0.82rem;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .report-footer {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(245, 206, 106, 0.5);
+      font-size: 0.8rem;
+      opacity: 0.85;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="starry"></div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen active">
+      <h1>找到屬於你的人生價值</h1>
+      <p class="small-text">
+        從 18 歲出發，踏上一條只屬於你的生命道路。<br />
+        透過選擇、失去與獲得，你會慢慢看見：<br />
+        「我為什麼而存在？我想成為怎樣的大人？」 
+      </p>
+
+      <div class="field-group" style="margin-top: 12px;">
+        <label for="player-name">你的名字或綽號</label>
+        <input id="player-name" type="text" placeholder="例如：小晴 / 星旅人" />
+      </div>
+
+      <div class="field-group">
+        <label>性別</label>
+        <div class="radio-group">
+          <label><input type="radio" name="gender" value="女" /> 女</label>
+          <label><input type="radio" name="gender" value="男" /> 男</label>
+          <label><input type="radio" name="gender" value="不方便透露" /> 不方便透露</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="declaration">出發前的生命宣言</label>
+        <textarea id="declaration" placeholder="寫下一句此刻對自己或人生的承諾，例如：我願意誠實面對自己的心。"></textarea>
+      </div>
+
+      <button id="btn-start" class="btn">開始旅程 ✨</button>
+    </div>
+
+    <!-- Setup Screen -->
+    <div id="setup-screen" class="screen">
+      <h2>出發前的準備</h2>
+      <p class="small-text">
+        在 18 歲以前，你已經擁有一些能力、信念與陪你走一段路的人。<br />
+        請為自己選擇：<strong>3 個能力、3 個起點觀念、3 位重要夥伴</strong>。
+      </p>
+
+      <div class="setup-columns">
+        <div class="card">
+          <div class="section-title">一、選擇三項「能力（工具）」</div>
+          <p class="small-text">勾選你覺得自己比較有、或希望帶著上路的能力。</p>
+          <div id="abilities-group" class="checkbox-group"></div>
+          <div id="abilities-counter" class="counter-text">已選擇：0 / 3</div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">二、選擇三個「起點觀念」</div>
+          <p class="small-text">這些是你目前對人生比較認同的基本想法。</p>
+          <div id="values-group" class="checkbox-group"></div>
+          <div id="values-counter" class="counter-text">已選擇：0 / 3</div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">三、選擇三位「同行夥伴」</div>
+          <p class="small-text">在你心裡，誰是那些讓你覺得比較不孤單的人？</p>
+          <div id="companions-group" class="checkbox-group"></div>
+          <div id="companions-counter" class="counter-text">已選擇：0 / 3</div>
+        </div>
+      </div>
+
+      <button id="btn-begin-journey" class="btn">踏上人生旅程 🌌</button>
+      <button id="btn-back-start" class="btn secondary">返回上一頁</button>
+    </div>
+
+    <!-- Journey Screen -->
+    <div id="journey-screen" class="screen">
+      <div class="journey-header">
+        <div>
+          <div class="progress-text" id="progress-text">第 1 / 15 題</div>
+          <div class="small-text" id="player-label"></div>
+        </div>
+        <div class="timer">倒數 <span id="timer-count">20</span> 秒</div>
+      </div>
+
+      <div class="question-card">
+        <div id="scenario-title" class="question-title"></div>
+        <div id="scenario-desc" class="question-desc"></div>
+        <div id="choices-container" class="choices"></div>
+      </div>
+
+      <div class="mini-log" id="mini-log"></div>
+    </div>
+
+    <!-- Reflection Screen -->
+    <div id="reflection-screen" class="screen">
+      <h2>使命小停靠站</h2>
+      <p id="reflection-question"></p>
+      <div class="reflection-textarea">
+        <textarea id="reflection-answer" placeholder="請把你真實的想法寫下來，這會成為你日後調整方向的線索。"></textarea>
+      </div>
+      <button id="btn-reflection-continue" class="btn">繼續旅程 ➜</button>
+    </div>
+
+    <!-- Mission Exploration Screen -->
+    <div id="mission-screen" class="screen">
+      <h2 id="mission-title"></h2>
+      <p class="small-text" id="mission-desc"></p>
+
+      <div id="mission-body"></div>
+
+      <button id="btn-mission-continue" class="btn">繼續旅程 ➜</button>
+    </div>
+
+    <!-- Summary Screen: 人生使命報告書 -->
+    <div id="summary-screen" class="screen">
+      <div class="report-card">
+        <div class="report-header">
+          <div class="report-title">🪐 人生使命報告書</div>
+          <p class="report-subtitle">
+            這不是成績單，而是你用一次次選擇，寫下的靈魂紀錄。
+          </p>
+          <p class="report-meta" id="summary-intro"></p>
+        </div>
+
+	<div class="report-section">
+  		<h3>🧩 0.你的靈魂稱號</h3>
+ 		 <p class="report-caption">
+    		這是根據你的特質雷達圖，自動生成的「靈魂角色」，不是標籤，而是一種觀看自己的角度。
+  		</p>
+  	<div id="summary-archetype-title" class="summary-list"></div>
+  	<p id="summary-archetype-subtitle" class="report-caption"></p>
+  	<p id="summary-archetype-detail" class="small-text"></p>
+	</div>
+
+
+        <div class="report-section">
+          <h3>🌟 1.你在旅程中「召喚而來的力量」</h3>
+          <p class="report-caption">
+            這些是你在選擇、行動與心意之中，慢慢聚起來的能力、關係與內在寶物。
+            它們是你的光，是你願望的根，是你前進時真正的底氣。
+          </p>
+          <div id="summary-gained" class="summary-list"></div>
+        </div>
+
+        <div class="report-section">
+          <h3>🌙 2.你在旅途中「放下、失去或交換」的事物</h3>
+          <p class="report-caption">
+            有些東西離你而去，有些則是你親手放下。這些不是失敗，而是你用來交換成長、
+            換成更貼近本心道路的代價。
+          </p>
+          <div id="summary-lost" class="summary-list"></div>
+        </div>
+
+        <div class="report-section">
+          <h3>🔥 3.此刻在你心中最清晰的「核心價值」</h3>
+          <p class="report-caption">
+            這些價值不是你硬選的，而是整趟旅程悄悄拼湊出的心之地圖。
+            它們告訴你：什麼是你願意為之努力、承擔與守護的事。
+          </p>
+          <div id="summary-core-values" class="summary-list"></div>
+        </div>
+
+        <div class="report-section">
+          <h3>🌱 4.你渴望成為的樣子（人生願景）</h3>
+          <p class="report-caption">
+            你對未來的直覺，是靈魂最誠實的聲音。你已經在朝著那個版本的自己靠近。
+          </p>
+          <div id="summary-vision" class="summary-list"></div>
+        </div>
+
+        <div class="report-section">
+          <h3>✨ 5.你現在最需要把握的三件事</h3>
+          <p class="report-caption">
+            每一段旅程的尾聲，都會重排一次「此刻最重要的優先順序」。
+            下面這幾件，是現在特別值得你抓緊的線索。
+          </p>
+          <div id="summary-seize" class="summary-list"></div>
+        </div>
+
+        <div class="report-section">
+          <h3>💫 6.你的三大靈魂亮點（閃光特質）</h3>
+          <p class="report-caption">
+            這不是你「應該變成」的樣子，而是你自然散發出來的光。
+            它們會成為你連結世界、陪伴他人、實踐使命的最自然方式。
+          </p>
+          <div id="summary-strengths" class="summary-list"></div>
+        </div>
+
+        <div class="report-section">
+          <h3>🧭 7.你的特質雷達圖（生命的八個方向）</h3>
+          <p class="report-caption">
+            這張雷達圖像是一幅靈魂地貌，呈現目前你比較常用力、較自然發光的幾個面向。
+            沒有好壞，只是此刻的你長成的模樣。
+          </p>
+          <canvas id="radar-canvas" width="380" height="280"></canvas>
+        </div>
+
+        <div class="report-section">
+          <h3>🪞 8.旅程中的三次靈魂提問（內在獨白）</h3>
+          <p class="report-caption">
+            這三次停下腳步的書寫，是你心底最誠實的聲音。迷惘的時候，也許可以回來看看。
+          </p>
+          <div class="btn-row">
+            <button id="btn-toggle-reflections" class="btn secondary">查看／收闔 靈魂提問</button>
+          </div>
+          <div id="detail-reflections" class="summary-section" style="display:none; margin-top:8px;">
+            <h3>靈魂提問紀錄</h3>
+            <p class="small-text">① 此刻，我最在乎的價值：</p>
+            <p id="summary-ref1"></p>
+            <div class="divider"></div>
+            <p class="small-text">② 我最想照亮的人與族群：</p>
+            <p id="summary-ref2"></p>
+            <div class="divider"></div>
+            <p class="small-text">③ 我存在，是為了＿＿＿＿＿＿：</p>
+            <p id="summary-ref3"></p>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h3>📖 九、旅程事件剪影（選擇紀錄）</h3>
+          <p class="report-caption">
+            這些不是成績，而是你思考、猶豫、受傷、勇敢與成長的痕跡。
+          </p>
+          <div class="btn-row">
+            <button id="btn-toggle-log" class="btn secondary">查看／收闔 旅程片段</button>
+          </div>
+          <div id="detail-log" class="summary-section" style="display:none; margin-top:8px;">
+            <h3>旅程事件紀錄</h3>
+            <div id="summary-log" class="summary-log"></div>
+          </div>
+        </div>
+
+        <div class="summary-section">
+          <h3>重新出發的邀請</h3>
+          <p class="report-caption">
+            你已經用一次旅程，換到一份更認識自己的地圖。  
+            如果你願意，可以帶著這份報告，再走一趟完全不同的版本。
+          </p>
+          <button id="btn-restart" class="btn">再走一趟不同的人生 ✨</button>
+        </div>
+
+        <div class="report-footer">
+          「你比自己想的更溫柔，也比自己以為的更堅強。」  
+          <br />—— 感謝你，願意認真地活一次。
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Modal (Chance / Fate) -->
+    <div id="card-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-title" id="card-title"></div>
+        <div class="modal-desc" id="card-description"></div>
+        <div id="card-options" class="modal-options"></div>
+        <button id="card-close" class="btn" style="display:none;">接受並繼續 ➜</button>
+        <p class="small-text" id="card-footnote"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =============================
+    // Data Definitions
+    // =============================
+    const abilitiesOptions = [
+      "傾聽", "分析力", "創意", "表達能力", "運動能力", "堅持力",
+      "解決問題", "耐心", "想像力", "技術能力（寫程式、設計）",
+      "觀察力", "勇氣"
+    ];
+
+    const valueOptions = [
+      "誠實比成功重要",
+      "一定要學會愛人與被愛",
+      "努力不一定成功，但不努力更不會成功",
+      "要照顧好身體",
+      "朋友是人生重要的支柱",
+      "失敗是成長的一部分",
+      "信任要慢慢建立",
+      "世界很大，要多探索",
+      "金錢重要，但不是全部",
+      "幫助別人也是成就自己"
+    ];
+
+    const companionOptions = [
+      "爺爺或奶奶",
+      "爸爸",
+      "媽媽",
+      "哥哥 / 姊姊",
+      "弟弟 / 妹妹",
+      "最知心的好朋友",
+      "一位啟發你的老師",
+      "一位總是支持你的前輩",
+      "一位你現在很在乎的對象",
+      "一位精神 / 信仰上的導師"
+    ];
+
+    // 15 life scenarios
+    const scenarios = [
+      {
+        id: 1,
+        title: "踏入大學的一天：你選擇怎麼開始？",
+        description: "你剛滿 18 歲，進入一個全新的環境。面對未知，你的第一步會是——",
+        choices: [
+          { id: "A", text: "參加大量社團認識新朋友", effect: "獲得：勇氣、新夥伴" },
+          { id: "B", text: "把時間放在課業和自我提升", effect: "獲得：自律、專業能力" },
+          { id: "C", text: "跟同學相處，保持舒服的比率", effect: "獲得：平衡感" },
+          { id: "D", text: "先觀察環境，小步前進", effect: "獲得：觀察力" }
+        ]
+      },
+      {
+        id: 2,
+        title: "第一次心動：有人向你示好",
+        description: "你遇到一位讓你心暖的人，他/她向你示好。",
+        choices: [
+          { id: "A", text: "勇敢開始一段關係", effect: "獲得：伴侶夥伴；付出：自由時間" },
+          { id: "B", text: "表示需要時間觀察", effect: "獲得：界線" },
+          { id: "C", text: "喜歡但先專注課業", effect: "獲得：專注力" },
+          { id: "D", text: "禮貌拒絕", effect: "獲得：自我尊重；失去：可能的緣分" }
+        ]
+      },
+      {
+        id: 3,
+        title: "社團與課業撞期，你只能選一個",
+        description: "重要社團活動和期中考複習撞期，你必須選擇。",
+        choices: [
+          { id: "A", text: "參加社團活動", effect: "獲得：人脈；失去：課業時間" },
+          { id: "B", text: "專注上課", effect: "獲得：知識；失去：社交" },
+          { id: "C", text: "雙線並行，壓力很大", effect: "獲得：耐力；失去：健康" },
+          { id: "D", text: "放棄兩者，選擇好好休息", effect: "獲得：能量；失去：發展機會" }
+        ]
+      },
+      {
+        id: 4,
+        title: "你第一次和家人激烈爭執",
+        description: "原因可能是價值觀、朋友、生活方式，你們說了很多重話。",
+        choices: [
+          { id: "A", text: "主動道歉修復關係", effect: "獲得：家庭夥伴、成熟" },
+          { id: "B", text: "冷靜溝通，把話說清楚", effect: "獲得：對話能力" },
+          { id: "C", text: "選擇拉開距離，不想面對", effect: "失去：部分家庭連結" },
+          { id: "D", text: "情緒化反擊", effect: "失去：信任；獲得：後悔" }
+        ]
+      },
+      {
+        id: 5,
+        title: "遭遇明顯挫敗：比賽落選或成績不佳",
+        description: "你很努力，結果卻不如預期。",
+        choices: [
+          { id: "A", text: "重新努力，調整方式再來", effect: "獲得：韌性" },
+          { id: "B", text: "轉換方向，尋找更適合自己的路", effect: "獲得：彈性" },
+          { id: "C", text: "先停下來休息和療傷", effect: "獲得：自我照顧" },
+          { id: "D", text: "壓抑情緒，假裝沒事", effect: "失去：情緒健康" }
+        ]
+      },
+      {
+        id: 6,
+        title: "遇到一位真正願意教你的前輩或老師",
+        description: "對方看見你的潛力，願意給你指點。",
+        choices: [
+          { id: "A", text: "抓住機會，主動請教與學習", effect: "獲得：貴人、技能" },
+          { id: "B", text: "覺得不好意思，不敢太打擾", effect: "獲得：謙虛；失去：部分機會" },
+          { id: "C", text: "保持自然來往，順其自然", effect: "獲得：陪伴感" },
+          { id: "D", text: "覺得自己不值得被栽培", effect: "失去：自信" }
+        ]
+      },
+      {
+        id: 7,
+        title: "身體亮起紅燈，需要調整生活",
+        description: "熬夜、壓力、飲食不正常讓你身體不舒服。",
+        choices: [
+          { id: "A", text: "開始規律運動與作息", effect: "獲得：健康；付出：自由時間" },
+          { id: "B", text: "從飲食控制開始", effect: "獲得：自律" },
+          { id: "C", text: "覺得沒關係，撐一下就過了", effect: "失去：健康" },
+          { id: "D", text: "過度焦慮，上網亂查一堆資訊", effect: "失去：心靈能量" }
+        ]
+      },
+      {
+        id: 8,
+        title: "你和好友之間出現誤會",
+        description: "一句話、一個行為，讓你們心裡都有了疙瘩。",
+        choices: [
+          { id: "A", text: "主動約出來好好談", effect: "獲得：友情夥伴、信任" },
+          { id: "B", text: "等對方先來找你", effect: "獲得：耐心" },
+          { id: "C", text: "保持距離，讓關係淡掉", effect: "失去：關係；獲得：安全感" },
+          { id: "D", text: "直接封鎖，假裝對方不存在", effect: "失去：重要夥伴；獲得：冷感" }
+        ]
+      },
+      {
+        id: 9,
+        title: "你收到一份不錯的打工／實習機會，但會很忙",
+        description: "這個機會可能會改變你的履歷，也可能壓垮你的生活平衡。",
+        choices: [
+          { id: "A", text: "接下挑戰，看看自己能走多遠", effect: "獲得：能力；付出：休息" },
+          { id: "B", text: "推薦給更適合的朋友", effect: "獲得：善良" },
+          { id: "C", text: "婉拒，維持現在的節奏", effect: "獲得：平衡" },
+          { id: "D", text: "猶豫太久，機會自動消失", effect: "失去：機會" }
+        ]
+      },
+      {
+        id: 10,
+        title: "第一次面對失戀或一段深刻的離開",
+        description: "這段關係對你很重要，但走到了終點。",
+        choices: [
+          { id: "A", text: "好好哭一場，然後慢慢站起來", effect: "獲得：韌性" },
+          { id: "B", text: "問自己：這段感情教會了我什麼？", effect: "獲得：智慧" },
+          { id: "C", text: "封閉心門，不再輕易投入感情", effect: "失去：信任" },
+          { id: "D", text: "急著找下一個人填補空缺", effect: "失去：自我力量" }
+        ]
+      },
+      {
+        id: 11,
+        title: "你獲得出國交換或大型計畫的邀請",
+        description: "這是一個看見更大世界的機會，也伴隨風險與成本。",
+        choices: [
+          { id: "A", text: "勇敢出發，選擇飛出去", effect: "獲得：視野；付出：金錢" },
+          { id: "B", text: "覺得還沒準備好，先放棄", effect: "獲得：謹慎" },
+          { id: "C", text: "因家庭需要而留在原地", effect: "獲得：責任感；失去：成長機會" },
+          { id: "D", text: "一直猶豫，最後超過期限", effect: "失去：勇氣" }
+        ]
+      },
+      {
+        id: 12,
+        title: "遇到一個非常難相處的同學或同事",
+        description: "你們常有摩擦，卻必須共事。",
+        choices: [
+          { id: "A", text: "試著理解他的立場，練習包容", effect: "獲得：同理心" },
+          { id: "B", text: "設立清楚界線，保護自己", effect: "獲得：界線" },
+          { id: "C", text: "直接正面衝突，攤牌講清楚", effect: "失去：部分關係；獲得：坦白" },
+          { id: "D", text: "選擇逃避，能不合作就不合作", effect: "失去：成熟度" }
+        ]
+      },
+      {
+        id: 13,
+        title: "你做出一件真正讓自己驕傲的事",
+        description: "完成了一個作品、計畫、演講、比賽或公益行動。",
+        choices: [
+          { id: "A", text: "分享給身邊的人，一起開心", effect: "獲得：自信、人脈" },
+          { id: "B", text: "把成就藏在心裡，靜靜收藏", effect: "獲得：謙和" },
+          { id: "C", text: "以此為起點，設定更大的目標", effect: "獲得：動力" },
+          { id: "D", text: "過度膨脹，看不起別人的努力", effect: "失去：謙遜" }
+        ]
+      },
+      {
+        id: 14,
+        title: "家人遇到困難，你需要做選擇",
+        description: "可能是疾病、財務、情緒或其他壓力。",
+        choices: [
+          { id: "A", text: "盡力伸出手協助", effect: "獲得：責任；付出：資源" },
+          { id: "B", text: "陪伴與傾聽，但讓他們自己做決定", effect: "獲得：智慧" },
+          { id: "C", text: "保持距離，優先照顧自己的生活", effect: "獲得：界線；失去：部分親情感" },
+          { id: "D", text: "刻意忽略，假裝不知道", effect: "失去：成長" }
+        ]
+      },
+      {
+        id: 15,
+        title: "人生十字路口：工作／感情／方向",
+        description: "你來到一個必須選擇未來方向的關鍵點。",
+        choices: [
+          { id: "A", text: "選擇一條相對安穩的道路", effect: "獲得：穩定" },
+          { id: "B", text: "選擇真正熱愛的方向", effect: "獲得：熱情；付出：安全感" },
+          { id: "C", text: "暫停一年，給自己時間探索", effect: "獲得：清晰；付出：金錢" },
+          { id: "D", text: "交給家人決定未來", effect: "失去：自主；獲得：安全" }
+        ]
+      }
+    ];
+
+    // 機會卡
+    const chanceCards = [
+      {
+        title: "重新出發的勇氣",
+        description: "你得到一次整理人生狀態的機會。",
+        options: [
+          { text: "整理內心，放下一個讓你糾結很久的遺憾", effect: "獲得：心靈空間；放下：糾結的遺憾" },
+          { text: "重新聯絡一位你想念的人", effect: "獲得：關係修復" },
+          { text: "斷捨離一件耗損你能量的事情", effect: "獲得：能量；放下：一項負擔" }
+        ]
+      },
+      {
+        title: "意外的貴人",
+        description: "在一場活動中，有人被你的真誠打動，願意幫助你。",
+        options: [
+          { text: "請他指導你的職涯方向", effect: "獲得：職涯指引" },
+          { text: "請他給你生活與心態建議", effect: "獲得：心靈支持" },
+          { text: "維持普通關係，順其自然", effect: "獲得：穩定" }
+        ]
+      },
+      {
+        title: "一筆時間紅利",
+        description: "突然有一段空檔，不必打工、沒有考試。",
+        options: [
+          { text: "全力投入一個你一直想做的計畫", effect: "獲得：作品與成就感" },
+          { text: "用來陪伴重要的人", effect: "獲得：關係深度" },
+          { text: "用來放空與充電", effect: "獲得：內在穩定" }
+        ]
+      },
+      {
+        title: "靈感大爆發",
+        description: "你的腦海裡突然充滿點子。",
+        options: [
+          { text: "把點子記錄下來，做成未來計畫清單", effect: "獲得：創意資產" },
+          { text: "選一個最可行的，立刻開始執行", effect: "獲得：行動力" },
+          { text: "分享給朋友，一起討論可能性", effect: "獲得：合作機會" }
+        ]
+      },
+      {
+        title: "修復關係的窗口",
+        description: "你和某個疏遠的人之間，出現一個可以好好說話的機會。",
+        options: [
+          { text: "真誠道歉與表達感受", effect: "獲得：關係修復、誠實" },
+          { text: "專心聽對方說完他的故事", effect: "獲得：同理心" },
+          { text: "選擇祝福，讓關係停留在遠遠的善意", effect: "獲得：放下" }
+        ]
+      },
+      {
+        title: "學習新技能的邀請",
+        description: "有人揪你一起去上課、工作坊或線上課程。",
+        options: [
+          { text: "學一個和未來職涯有關的技能", effect: "獲得：專業能力" },
+          { text: "學一個讓生活更有趣的興趣", effect: "獲得：生活豐富度" },
+          { text: "謝絕邀請，改成自學與閱讀", effect: "獲得：自學習慣" }
+        ]
+      },
+      {
+        title: "財務小奇蹟",
+        description: "你意外獲得一筆小獎金或紅包。",
+        options: [
+          { text: "存起來當未來的安全墊", effect: "獲得：安全感" },
+          { text: "投資在學習或設備", effect: "獲得：未來資本" },
+          { text: "請身邊重要的人吃飯", effect: "獲得：感情溫度" }
+        ]
+      },
+      {
+        title: "公開發聲的機會",
+        description: "你被邀請在一個場合分享你的故事或觀點。",
+        options: [
+          { text: "勇敢分享真實的自己", effect: "獲得：自信與影響力" },
+          { text: "謹慎準備，分享部分內容", effect: "獲得：穩健" },
+          { text: "婉拒，選擇在小圈圈裡交流", effect: "獲得：安全；失去：曝光" }
+        ]
+      },
+      {
+        title: "自我覺察時刻",
+        description: "有一句話、一段內容深深打到你。",
+        options: [
+          { text: "寫下長篇日記，好好對話自己", effect: "獲得：自我理解" },
+          { text: "找一個可信任的人分享感受", effect: "獲得：情感連結" },
+          { text: "把這份觸動變成一個小行動", effect: "獲得：行動整合力" }
+        ]
+      },
+      {
+        title: "人生地圖檢查點",
+        description: "你暫停腳步，重新檢視目前的人生路線。",
+        options: [
+          { text: "調整一個你覺得偏離初衷的地方", effect: "獲得：對齊初心" },
+          { text: "確認目前的方向並加深承諾", effect: "獲得：決心" },
+          { text: "允許自己先不確定，只是誠實面對迷惘", effect: "獲得：對自己誠實" }
+        ]
+      }
+    ];
+
+    // 命運卡
+    const fateCards = [
+      {
+        title: "突如其來的生病",
+        description: "你的身體強迫你按下暫停鍵。",
+        outcomes: [
+          "失去一些行程安排，但換來更多休息時間與反思空間。獲得：健康覺察。"
+        ]
+      },
+      {
+        title: "重要計畫被取消",
+        description: "你很期待的一個活動或機會突然被取消。",
+        outcomes: [
+          "失去一個展現自己的舞台，但多了一段自由時間可以運用。"
+        ]
+      },
+      {
+        title: "家中發生變故",
+        description: "家人需要你更多的關注與陪伴。",
+        outcomes: [
+          "被迫調整原本計畫，多了一份責任，也多了一份成熟。"
+        ]
+      },
+      {
+        title: "友情的離散",
+        description: "一段你以為會一直存在的友情走到了盡頭。",
+        outcomes: [
+          "失去一位夥伴，但慢慢學會珍惜還留在身邊的人。"
+        ]
+      },
+      {
+        title: "情感上的背叛",
+        description: "你在關係裡感受到強烈的傷害。",
+        outcomes: [
+          "信任受損，但也開始學會為自己設立界線。"
+        ]
+      },
+      {
+        title: "錯失關鍵時機",
+        description: "你沒有在黃金時間做出行動。",
+        outcomes: [
+          "少了一次大躍進的機會，卻也讓你看清自己害怕的是什麼。"
+        ]
+      },
+      {
+        title: "意外的責任",
+        description: "你突然需要照顧某件事或某個人。",
+        outcomes: [
+          "壓力增加，但也讓你看見自己其實比想像中更堅強。"
+        ]
+      },
+      {
+        title: "外在環境劇變",
+        description: "例如疫情、經濟變動，讓原本的計畫全部打亂。",
+        outcomes: [
+          "被迫修改人生藍圖，卻讓你發現新的可能方向。"
+        ]
+      },
+      {
+        title: "被誤解與批評",
+        description: "你做的事情被人誤解，甚至受到批評。",
+        outcomes: [
+          "心裡受傷，但開始學習分辨哪些聲音值得放在心上。"
+        ]
+      },
+      {
+        title: "與重要之人的永別",
+        description: "某位對你很重要的人離世或永久離開你的生活。",
+        outcomes: [
+          "失去實際的陪伴，但他的影響成為你心中永遠的力量。"
+        ]
+      }
+    ];
+
+    // 人生使命探索題區塊（反思句融合在引導文字中，不再額外填答）
+    const missionBlocks = [
+      {
+        id: "energy",
+        title: "能量來源：什麼讓你覺得靈魂在發光？",
+        description:
+          "請勾選你做了會「越做越有力量」的事。邊選邊想：哪些時候，你會在心裡默默說：「原來我就是為了這件事而生。」",
+        type: "energy"
+      },
+      {
+        id: "bright",
+        title: "生命提醒：哪些事件曾暗示你的使命？",
+        description:
+          "請寫下你的三個「亮點時刻」──被看見、被感謝、或是你心頭微熱的瞬間。邊寫邊留意：那些畫面，其實在對你說什麼？",
+        type: "bright"
+      },
+      {
+        id: "target",
+        title: "你想照亮誰？（使命的對象）",
+        description:
+          "依直覺勾選你最想陪伴、服務、或守護的族群。想一想：如果你能幫助某一群人，你第一個想到的是誰？為什麼是他們？",
+        type: "target"
+      },
+      {
+        id: "painVision",
+        title: "世界的痛點與你的十年願景",
+        description:
+          "先選出你最有感的世界痛點，再寫下你十年後想完成的三件事，最後選擇你想成為的樣子。邊寫邊問自己：如果生命只剩十年，我仍然想為哪些事全力以赴？",
+        type: "painVision"
+      }
+    ];
+
+    const chanceTriggers = [3, 8, 12];
+    const fateTriggers = [4, 9, 13];
+    const missionTriggers = [2, 7, 11, 14];
+
+    const traitCategories = [
+      { id: "guide", name: "陪伴與療癒", desc: "擅長陪在別人身邊，成為情緒與心靈的靠山。" },
+      { id: "educator", name: "知識與教育", desc: "喜歡教學、分享與傳遞觀念。" },
+      { id: "creator", name: "創作與表達", desc: "透過作品說話，喜歡把感受變成創作。" },
+      { id: "leader", name: "領導與團隊", desc: "在團隊中自然扮演帶頭、整合或發起的人。" },
+      { id: "innovator", name: "科技與創新", desc: "對系統、科技、解決問題與創新特別有感。" },
+      { id: "organizer", name: "規劃與系統化", desc: "喜歡規劃、整理、讓混亂變得清楚有序。" },
+      { id: "adventurer", name: "行動與挑戰", desc: "享受嘗試、挑戰與在行動中成長。" },
+      { id: "worldChanger", name: "社會與世界關懷", desc: "關心社會、環境與更大範圍的改變。" }
+    ];
+
+// 跟你現在的 traitCategories 對應
+const traitMeta = {
+  guide: {
+    name: "陪伴與療癒",
+    shortAdj: "溫柔",
+    roleNoun: "導航者",
+    tagline: "擅長陪伴與傾聽，讓別人在你身邊覺得被理解、不孤單。"
+  },
+  educator: {
+    name: "知識與教育",
+    shortAdj: "點燈",
+    roleNoun: "學習引路人",
+    tagline: "喜歡整理與分享觀念，讓知識在你手上變得有溫度。"
+  },
+  creator: {
+    name: "創作與表達",
+    shortAdj: "靈感",
+    roleNoun: "創作者",
+    tagline: "擅長用文字、畫面或作品，把感受變成可以被看見的形狀。"
+  },
+  leader: {
+    name: "領導與團隊",
+    shortAdj: "凝聚",
+    roleNoun: "領路人",
+    tagline: "自然會看見全局、照顧團隊，帶著大家一起往前走。"
+  },
+  innovator: {
+    name: "科技與創新",
+    shortAdj: "系統",
+    roleNoun: "革新者",
+    tagline: "喜歡拆解問題、設計更好的做事方式，把混亂變成新架構。"
+  },
+  organizer: {
+    name: "規劃與系統化",
+    shortAdj: "秩序",
+    roleNoun: "編排者",
+    tagline: "擅長規劃、排程、整理，把一堆事情排成清楚的路線圖。"
+  },
+  adventurer: {
+    name: "行動與挑戰",
+    shortAdj: "行動",
+    roleNoun: "開拓者",
+    tagline: "願意先踏出去試、先做再說，從行動中長出勇氣與經驗。"
+  },
+  worldChanger: {
+    name: "社會與世界關懷",
+    shortAdj: "願景",
+    roleNoun: "改變者",
+    tagline: "看見世界的痛，也忍不住想多做一點，讓環境比昨天好一點點。"
+  }
+};
+
+
+    // =============================
+    // Game State
+    // =============================
+    let state = {
+      player: {
+        name: "",
+        gender: "",
+        declaration: ""
+      },
+      selections: {
+        abilities: [],
+        values: [],
+        companions: []
+      },
+      journey: {
+        currentIndex: 0,
+        log: [],
+        gained: [],
+        lost: [],
+        items: []
+      },
+      reflections: ["", "", ""],
+      timer: {
+        remaining: 20,
+        id: null,
+        locked: false
+      },
+      cardsUsed: {
+        chance: 0,
+        fate: 0
+      },
+      currentReflectionIndex: 0,
+      missions: {
+        energy: {
+          selected: [],
+          other: ""
+        },
+        bright: {
+          moments: ["", "", ""]
+        },
+        target: {
+          selected: [],
+          other: ""
+        },
+        painVision: {
+          pains: [],
+          otherPain: "",
+          tenYears: ["", "", ""],
+          vision: "",
+          visionOther: ""
+        }
+      },
+      missionQueue: [],
+      currentMission: null
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      $(id).classList.add("active");
+    }
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function resetState() {
+      state = {
+        player: { name: "", gender: "", declaration: "" },
+        selections: { abilities: [], values: [], companions: [] },
+        journey: {
+          currentIndex: 0,
+          log: [],
+          gained: [],
+          lost: [],
+          items: []
+        },
+        reflections: ["", "", ""],
+        timer: { remaining: 20, id: null, locked: false },
+        cardsUsed: { chance: 0, fate: 0 },
+        currentReflectionIndex: 0,
+        missions: {
+          energy: { selected: [], other: "" },
+          bright: { moments: ["", "", ""] },
+          target: { selected: [], other: "" },
+          painVision: {
+            pains: [],
+            otherPain: "",
+            tenYears: ["", "", ""],
+            vision: "",
+            visionOther: ""
+          }
+        },
+        missionQueue: [],
+        currentMission: null
+      };
+      $("player-name").value = "";
+      $("declaration").value = "";
+      document.querySelectorAll("input[name='gender']").forEach(r => r.checked = false);
+      $("reflection-answer").value = "";
+      $("mini-log").innerHTML = "";
+    }
+
+    // =============================
+    // Setup Screen Rendering
+    // =============================
+    function renderCheckboxGroup(containerId, options, groupName) {
+      const container = $(containerId);
+      container.innerHTML = "";
+      options.forEach((opt, index) => {
+        const id = `${groupName}-${index}`;
+        const label = document.createElement("label");
+        label.className = "checkbox-pill";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = opt;
+        input.name = groupName;
+        input.id = id;
+        label.appendChild(input);
+        const span = document.createElement("span");
+        span.textContent = opt;
+        label.appendChild(span);
+        container.appendChild(label);
+      });
+    }
+
+    function getCheckedValues(name) {
+      const list = Array.from(document.querySelectorAll(`input[name='${name}']:checked`));
+      return list.map(i => i.value);
+    }
+
+    function updateCounters() {
+      $("abilities-counter").textContent = `已選擇：${getCheckedValues("abilities").length} / 3`;
+      $("values-counter").textContent = `已選擇：${getCheckedValues("values").length} / 3`;
+      $("companions-counter").textContent = `已選擇：${getCheckedValues("companions").length} / 3`;
+    }
+
+    // =============================
+    // Timer
+    // =============================
+    function stopTimer() {
+      if (state.timer.id !== null) {
+        clearInterval(state.timer.id);
+        state.timer.id = null;
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      state.timer.remaining = 20;
+      state.timer.locked = false;
+      $("timer-count").textContent = state.timer.remaining;
+      state.timer.id = setInterval(() => {
+        state.timer.remaining -= 1;
+        $("timer-count").textContent = state.timer.remaining;
+        if (state.timer.remaining <= 0) {
+          stopTimer();
+          if (!state.timer.locked) {
+            state.timer.locked = true;
+            autoSelectChoice();
+          }
+        }
+      }, 1000);
+    }
+
+    function autoSelectChoice() {
+      const currentScenario = scenarios[state.journey.currentIndex];
+      if (!currentScenario) return;
+      const firstChoice = currentScenario.choices[0];
+      handleChoice(currentScenario, firstChoice, true);
+    }
+
+    // =============================
+    // Effect Parsing
+    // =============================
+    function parseEffects(effectText) {
+      const result = { gained: [], lost: [] };
+      if (!effectText) return result;
+      const segments = effectText.split(/[；;]+/);
+      segments.forEach(seg => {
+        let s = seg.trim();
+        if (!s) return;
+        if (s.startsWith("獲得：")) {
+          let body = s.replace("獲得：", "");
+          body.split(/[、，,]/).map(x => x.trim()).filter(x => x).forEach(x => result.gained.push(x));
+        } else if (s.startsWith("失去：") || s.startsWith("付出：") || s.startsWith("放下：")) {
+          let body = s.replace(/^失去：|^付出：|^放下：/, "");
+          body.split(/[、 ，,]/).map(x => x.trim()).filter(x => x).forEach(x => result.lost.push(x));
+        }
+      });
+      return result;
+    }
+
+    // =============================
+    // Journey Rendering
+    // =============================
+    function appendLog(text) {
+      state.journey.log.push(text);
+      const mini = $("mini-log");
+      const p = document.createElement("p");
+      p.textContent = text;
+      mini.appendChild(p);
+      mini.scrollTop = mini.scrollHeight;
+    }
+
+    function renderScenario() {
+      const index = state.journey.currentIndex;
+      if (index >= scenarios.length) {
+        handleJourneyEnd();
+        return;
+      }
+      const scenario = scenarios[index];
+      $("progress-text").textContent = `第 ${scenario.id} / ${scenarios.length} 題`;
+      const name = state.player.name || "旅人";
+      $("player-label").textContent = `${name} 的人生旅程`;
+      $("scenario-title").textContent = scenario.title;
+      $("scenario-desc").textContent = scenario.description;
+
+      const choicesContainer = $("choices-container");
+      choicesContainer.innerHTML = "";
+
+      scenario.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "btn choice-btn";
+        btn.textContent = `${choice.id}. ${choice.text}`;
+        btn.addEventListener("click", () => {
+          if (state.timer.locked) return;
+          state.timer.locked = true;
+          stopTimer();
+          handleChoice(scenario, choice, false);
+        });
+        choicesContainer.appendChild(btn);
+      });
+
+      startTimer();
+    }
+
+    function handleChoice(scenario, choice, isTimeout) {
+      const number = scenario.id;
+      const choiceText = isTimeout
+        ? `（超過時間，由系統替你選擇）${choice.id}. ${choice.text}`
+        : `${choice.id}. ${choice.text}`;
+      const logText = `第 ${number} 題【${scenario.title}】：你選擇了「${choice.text}」。效果：${choice.effect}`;
+      appendLog(logText);
+
+      if (choice.effect && choice.effect.trim() !== "") {
+        state.journey.items.push(choice.effect);
+        const parsed = parseEffects(choice.effect);
+        state.journey.gained.push(...parsed.gained);
+        state.journey.lost.push(...parsed.lost);
+      }
+
+      state.journey.currentIndex += 1;
+      const currentNumber = number;
+
+      // 三次原本的靈魂提問
+      if (currentNumber === 5) {
+        openReflection(0);
+        return;
+      } else if (currentNumber === 10) {
+        openReflection(1);
+        return;
+      } else if (currentNumber === 15) {
+        openReflection(2);
+        return;
+      }
+
+      // 使命探索題（順序隨機）
+      if (missionTriggers.includes(currentNumber) && state.missionQueue.length > 0) {
+        const nextMission = state.missionQueue.shift();
+        openMission(nextMission);
+        return;
+      }
+
+      // 機會卡
+      if (chanceTriggers.includes(currentNumber) && state.cardsUsed.chance < 3) {
+        openChanceCard();
+        return;
+      }
+
+      // 命運卡
+      if (fateTriggers.includes(currentNumber) && state.cardsUsed.fate < 3) {
+        openFateCard();
+        return;
+      }
+
+      renderScenario();
+    }
+
+    // =============================
+    // Reflection (3 次靈魂提問)
+    // =============================
+    function openReflection(refIndex) {
+      state.currentReflectionIndex = refIndex;
+      $("reflection-answer").value = state.reflections[refIndex] || "";
+      let question = "";
+      if (refIndex === 0) {
+        question = "此刻，請寫下你現在覺得自己最在乎的三個價值是什麼？";
+      } else if (refIndex === 1) {
+        question = "如果你能為一群人點亮一盞燈，你最想照亮的是哪一群人？為什麼？";
+      } else {
+        question = "請完成這句話：『我存在，是為了＿＿＿＿＿＿。』";
+      }
+      $("reflection-question").textContent = question;
+      showScreen("reflection-screen");
+    }
+
+    function finishReflection() {
+      const idx = state.currentReflectionIndex;
+      const val = $("reflection-answer").value.trim();
+      state.reflections[idx] = val;
+      if (idx === 2) {
+        handleJourneyEnd();
+      } else {
+        showScreen("journey-screen");
+        renderScenario();
+      }
+    }
+
+    // =============================
+    // 使命探索題 UI（反思句已融合在引導文字）
+    // =============================
+    function openMission(block) {
+      state.currentMission = block;
+      $("mission-title").textContent = block.title;
+      $("mission-desc").textContent = block.description;
+      const body = $("mission-body");
+      body.innerHTML = "";
+
+      if (block.type === "energy") {
+        const sec = document.createElement("div");
+        sec.className = "mission-section";
+
+        const h = document.createElement("h3");
+        h.textContent = "能量來源：請勾選你做了會越做越有力量的事。";
+        sec.appendChild(h);
+
+        const sub = document.createElement("p");
+        sub.className = "mission-subtitle";
+        sub.textContent = "可以多選，邊選邊感受：哪些事會讓你越做越精神、越做越像自己。";
+        sec.appendChild(sub);
+
+        const options = [
+          "教人、分享知識",
+          "解決問題、研究",
+          "創作（寫作、畫畫、影片、音樂…）",
+          "幫助別人、陪伴某群人",
+          "參與團隊、帶領活動",
+          "運動、挑戰身體極限",
+          "寫程式、做產品、創新",
+          "規劃事情、讓混亂變整齊",
+          "傾聽別人、支持他人情緒"
+        ];
+
+        const group = document.createElement("div");
+        group.className = "checkbox-group";
+        options.forEach((opt, idx) => {
+          const label = document.createElement("label");
+          label.className = "checkbox-pill";
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = "mission-energy-option";
+          input.value = opt;
+          label.appendChild(input);
+          const span = document.createElement("span");
+          span.textContent = opt;
+          label.appendChild(span);
+          group.appendChild(label);
+        });
+        sec.appendChild(group);
+
+        const otherLabel = document.createElement("label");
+        otherLabel.textContent = "其他：";
+        sec.appendChild(otherLabel);
+        const otherInput = document.createElement("input");
+        otherInput.type = "text";
+        otherInput.id = "mission-energy-other";
+        otherInput.placeholder = "你還會因為什麼事情而發光？";
+        sec.appendChild(otherInput);
+
+        body.appendChild(sec);
+      } else if (block.type === "bright") {
+        const sec = document.createElement("div");
+        sec.className = "mission-section";
+
+        const h = document.createElement("h3");
+        h.textContent = "請寫下你的三個「亮點時刻」";
+        sec.appendChild(h);
+
+        const sub = document.createElement("p");
+        sub.className = "mission-subtitle";
+        sub.textContent = "可以是被稱讚、被感謝、被需要，或是你自己覺得很滿足的瞬間。";
+        sec.appendChild(sub);
+
+        const hint = document.createElement("p");
+        hint.className = "small-text";
+        hint.textContent = "邊寫邊想：在那些被看見、被感謝、或心頭微熱的瞬間，你看到了什麼線索？";
+        sec.appendChild(hint);
+
+        const box = document.createElement("div");
+        box.className = "mission-multi-inputs";
+
+        for (let i = 1; i <= 3; i++) {
+          const lab = document.createElement("label");
+          lab.textContent = `亮點時刻 ${i}`;
+          box.appendChild(lab);
+          const input = document.createElement("input");
+          input.type = "text";
+          input.id = `mission-bright-${i}`;
+          input.placeholder = "簡單描述場景或發生了什麼事";
+          box.appendChild(input);
+        }
+
+        sec.appendChild(box);
+        body.appendChild(sec);
+      } else if (block.type === "target") {
+        const sec = document.createElement("div");
+        sec.className = "mission-section";
+        const h = document.createElement("h3");
+        h.textContent = "你想照亮誰？（使命的對象）";
+        sec.appendChild(h);
+
+        const sub = document.createElement("p");
+        sub.className = "mission-subtitle";
+        sub.textContent = "依直覺勾選，你可以多選。";
+        sec.appendChild(sub);
+
+        const hint = document.createElement("p");
+        hint.className = "small-text";
+        hint.textContent = "想像：如果你能幫助某一群人，你最先想到的是誰？為什麼是他們？";
+        sec.appendChild(hint);
+
+        const options = [
+          "迷惘的青年",
+          "心靈受傷的人",
+          "学生 / 兒童",
+          "追夢的人",
+          "家庭／朋友",
+          "創作者",
+          "社區或社團",
+          "科技與社會之間的橋樑",
+          "地球與環境"
+        ];
+
+        const group = document.createElement("div");
+        group.className = "checkbox-group";
+        options.forEach((opt, idx) => {
+          const label = document.createElement("label");
+          label.className = "checkbox-pill";
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = "mission-target-option";
+          input.value = opt;
+          label.appendChild(input);
+          const span = document.createElement("span");
+          span.textContent = opt;
+          label.appendChild(span);
+          group.appendChild(label);
+        });
+        sec.appendChild(group);
+
+        const otherLabel = document.createElement("label");
+        otherLabel.textContent = "其他：";
+        sec.appendChild(otherLabel);
+        const otherInput = document.createElement("input");
+        otherInput.type = "text";
+        otherInput.id = "mission-target-other";
+        otherInput.placeholder = "如果你心中浮現的是某個更具體的族群，可以寫在這裡。";
+        sec.appendChild(otherInput);
+
+        body.appendChild(sec);
+      } else if (block.type === "painVision") {
+        const secPain = document.createElement("div");
+        secPain.className = "mission-section";
+        const h1 = document.createElement("h3");
+        h1.textContent = "世界的痛點：你最想解決什麼問題？";
+        secPain.appendChild(h1);
+
+        const sub1 = document.createElement("p");
+        sub1.className = "mission-subtitle";
+        sub1.textContent = "請選出你最有感的問題，可以多選。";
+        secPain.appendChild(sub1);
+
+        const hint1 = document.createElement("p");
+        hint1.className = "small-text";
+        hint1.textContent = "想一想：哪一種痛，是你看到就會忍不住想伸手的？";
+        secPain.appendChild(hint1);
+
+        const painOptions = [
+          "孤單與無力感",
+          "教育不平等",
+          "心理健康",
+          "青年迷失、沒有方向",
+          "科技與人性斷裂",
+          "金錢焦慮與缺乏理財知識",
+          "環境議題",
+          "人際衝突",
+          "自我認同困難",
+          "社會的不公"
+        ];
+
+        const painGroup = document.createElement("div");
+        painGroup.className = "checkbox-group";
+        painOptions.forEach((opt) => {
+          const label = document.createElement("label");
+          label.className = "checkbox-pill";
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = "mission-pain-option";
+          input.value = opt;
+          label.appendChild(input);
+          const span = document.createElement("span");
+          span.textContent = opt;
+          label.appendChild(span);
+          painGroup.appendChild(label);
+        });
+        secPain.appendChild(painGroup);
+
+        const painOtherLabel = document.createElement("label");
+        painOtherLabel.textContent = "其他：";
+        secPain.appendChild(painOtherLabel);
+        const painOtherInput = document.createElement("input");
+        painOtherInput.type = "text";
+        painOtherInput.id = "mission-pain-other";
+        painOtherInput.placeholder = "你心中還有其他覺得很痛的地方嗎？";
+        secPain.appendChild(painOtherInput);
+
+        const secTen = document.createElement("div");
+        secTen.className = "mission-section";
+        const h2 = document.createElement("h3");
+        h2.textContent = "寫下你希望十年後已經完成的三件事";
+        secTen.appendChild(h2);
+
+        const sub2 = document.createElement("p");
+        sub2.className = "mission-subtitle";
+        sub2.textContent = "先不用管能不能做到，就寫下此刻最真實的渴望。";
+        secTen.appendChild(sub2);
+
+        const hint2 = document.createElement("p");
+        hint2.className = "small-text";
+        hint2.textContent = "反問自己：如果生命只剩十年，什麼是你仍然想全力以赴的？";
+        secTen.appendChild(hint2);
+
+        const tenBox = document.createElement("div");
+        tenBox.className = "mission-multi-inputs";
+        for (let i = 1; i <= 3; i++) {
+          const lab = document.createElement("label");
+          lab.textContent = `十年後的目標 ${i}`;
+          tenBox.appendChild(lab);
+          const input = document.createElement("input");
+          input.type = "text";
+          input.id = `mission-ten-${i}`;
+          input.placeholder = "例如：陪伴XXX族群、完成某個作品、建立一個空間…";
+          tenBox.appendChild(input);
+        }
+        secTen.appendChild(tenBox);
+
+        const secVision = document.createElement("div");
+        secVision.className = "mission-section";
+        const h3 = document.createElement("h3");
+        h3.textContent = "請選擇你的願景方向：你想成為哪一種人？";
+        secVision.appendChild(h3);
+
+        const visionOptions = [
+          "成為能陪伴與療癒的人",
+          "成為推動知識與教育的人",
+          "成為創新與科技的橋樑",
+          "成為能帶領團隊的人",
+          "成為自由、有選擇的人",
+          "成為心靈富足的人",
+          "成為改變世界的人",
+          "成為能創造美好作品的人"
+        ];
+
+        const visionGroup = document.createElement("div");
+        visionGroup.className = "radio-group";
+        visionOptions.forEach((opt) => {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "mission-vision";
+          input.value = opt;
+          label.appendChild(input);
+          const span = document.createElement("span");
+          span.textContent = opt;
+          label.appendChild(span);
+          visionGroup.appendChild(label);
+        });
+        secVision.appendChild(visionGroup);
+
+        const visionOtherLabel = document.createElement("label");
+        visionOtherLabel.textContent = "其他：";
+        secVision.appendChild(visionOtherLabel);
+        const visionOtherInput = document.createElement("input");
+        visionOtherInput.type = "text";
+        visionOtherInput.id = "mission-vision-other";
+        visionOtherInput.placeholder = "如果你有一個完全屬於自己的願景形容詞，寫在這裡。";
+        secVision.appendChild(visionOtherInput);
+
+        body.appendChild(secPain);
+        body.appendChild(secTen);
+        body.appendChild(secVision);
+      }
+
+      showScreen("mission-screen");
+    }
+
+    function saveCurrentMission() {
+      const block = state.currentMission;
+      if (!block) return;
+      if (block.type === "energy") {
+        const selected = Array.from(document.querySelectorAll("input[name='mission-energy-option']:checked"))
+          .map(i => i.value);
+        const other = $("mission-energy-other") ? $("mission-energy-other").value.trim() : "";
+        state.missions.energy.selected = selected;
+        state.missions.energy.other = other;
+      } else if (block.type === "bright") {
+        const moments = [];
+        for (let i = 1; i <= 3; i++) {
+          const el = $(`mission-bright-${i}`);
+          moments.push(el ? el.value.trim() : "");
+        }
+        state.missions.bright.moments = moments;
+      } else if (block.type === "target") {
+        const selected = Array.from(document.querySelectorAll("input[name='mission-target-option']:checked"))
+          .map(i => i.value);
+        const other = $("mission-target-other") ? $("mission-target-other").value.trim() : "";
+        state.missions.target.selected = selected;
+        state.missions.target.other = other;
+      } else if (block.type === "painVision") {
+        const pains = Array.from(document.querySelectorAll("input[name='mission-pain-option']:checked"))
+          .map(i => i.value);
+        const otherPain = $("mission-pain-other") ? $("mission-pain-other").value.trim() : "";
+        const tenYears = [];
+        for (let i = 1; i <= 3; i++) {
+          const el = `mission-ten-${i}`;
+          const dom = $(el);
+          tenYears.push(dom ? dom.value.trim() : "");
+        }
+        const visionRadio = document.querySelector("input[name='mission-vision']:checked");
+        const vision = visionRadio ? visionRadio.value : "";
+        const visionOther = $("mission-vision-other") ? $("mission-vision-other").value.trim() : "";
+
+        state.missions.painVision.pains = pains;
+        state.missions.painVision.otherPain = otherPain;
+        state.missions.painVision.tenYears = tenYears;
+        state.missions.painVision.vision = vision;
+        state.missions.painVision.visionOther = visionOther;
+      }
+    }
+
+    // =============================
+    // Chance & Fate Cards
+    // =============================
+    function openChanceCard() {
+      state.cardsUsed.chance += 1;
+      const card = chanceCards[Math.floor(Math.random() * chanceCards.length)];
+      $("card-title").textContent = `✨ 機會卡：${card.title}`;
+      $("card-description").textContent = card.description;
+      const container = $("card-options");
+      container.innerHTML = "";
+      $("card-close").style.display = "none";
+      $("card-footnote").textContent = "機會，是你可以主動抓住的可能。請選擇一個你想採取的行動。";
+
+      card.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "btn choice-btn";
+        btn.textContent = opt.text;
+        btn.addEventListener("click", () => {
+          const logText = `【機會卡：${card.title}】你選擇了「${opt.text}」。效果：${opt.effect}`;
+          appendLog(logText);
+          if (opt.effect && opt.effect.trim() !== "") {
+            state.journey.items.push(opt.effect);
+            const parsed = parseEffects(opt.effect);
+            state.journey.gained.push(...parsed.gained);
+            state.journey.lost.push(...parsed.lost);
+          }
+          closeCardModal();
+          showScreen("journey-screen");
+          renderScenario();
+        });
+        container.appendChild(btn);
+      });
+
+      $("card-modal").classList.remove("hidden");
+    }
+
+    function openFateCard() {
+      state.cardsUsed.fate += 1;
+      const card = fateCards[Math.floor(Math.random() * fateCards.length)];
+      $("card-title").textContent = `🌑 命運卡：${card.title}`;
+      $("card-description").textContent = card.description;
+      const container = $("card-options");
+      container.innerHTML = "";
+      const outcome = card.outcomes[Math.floor(Math.random() * card.outcomes.length)];
+      const p = document.createElement("p");
+      p.className = "small-text";
+      p.textContent = outcome;
+      container.appendChild(p);
+      $("card-footnote").textContent = "命運，是你無法選擇但可以回應的事。請接受這份發生。";
+      $("card-close").style.display = "inline-flex";
+      $("card-close").onclick = () => {
+        const logText = `【命運卡：${card.title}】發生的結果：${outcome}`;
+        appendLog(logText);
+        state.journey.items.push(outcome);
+        const parsed = parseEffects(outcome.replace("。", ""));
+        state.journey.gained.push(...parsed.gained);
+        state.journey.lost.push(...parsed.lost);
+
+        closeCardModal();
+        showScreen("journey-screen");
+        renderScenario();
+      };
+      $("card-modal").classList.remove("hidden");
+    }
+
+    function closeCardModal() {
+      $("card-modal").classList.add("hidden");
+      $("card-options").innerHTML = "";
+    }
+
+    // =============================
+    // Summary & Radar
+    // =============================
+    function uniqueArray(arr) {
+      return Array.from(new Set(arr.filter(x => x && x.trim() !== "")));
+    }
+
+    function pickLastUnique(arr, count) {
+      const result = [];
+      for (let i = arr.length - 1; i >= 0 && result.length < count; i--) {
+        const v = arr[i];
+        if (!v || !v.trim()) continue;
+        if (!result.includes(v)) {
+          result.unshift(v);
+        }
+      }
+      return result;
+    }
+
+    // 新版：特質分數計算（整合所有選項＋平滑化）
+    function computeTraitScores() {
+      const scores = {};
+      traitCategories.forEach(c => scores[c.id] = 0);
+
+      const add = (id, value = 1) => {
+        if (scores[id] !== undefined) scores[id] += value;
+      };
+
+      const m = state.missions;
+
+      // 1. 出發前的能力（abilities）
+      (state.selections.abilities || []).forEach(ab => {
+        if (ab === "傾聽") add("guide", 2);
+        if (ab === "分析力") { add("innovator", 1); add("organizer", 1); }
+        if (ab === "創意") add("creator", 2);
+        if (ab === "表達能力") { add("educator", 1); add("creator", 1); }
+        if (ab === "運動能力") add("adventurer", 2);
+        if (ab === "堅持力") { add("adventurer", 1); add("leader", 1); }
+        if (ab === "解決問題") { add("innovator", 2); }
+        if (ab === "耐心") { add("guide", 1); add("organizer", 1); }
+        if (ab === "想像力") add("creator", 1);
+        if (ab === "技術能力（寫程式、設計）") { add("innovator", 2); add("creator", 1); }
+        if (ab === "觀察力") { add("organizer", 1); add("guide", 1); }
+        if (ab === "勇氣") { add("adventurer", 1); add("leader", 1); }
+      });
+
+      // 2. 出發前的價值觀（values）
+      (state.selections.values || []).forEach(v => {
+        if (v === "誠實比成功重要") { add("guide", 1); add("leader", 1); }
+        if (v === "一定要學會愛人與被愛") add("guide", 2);
+        if (v === "努力不一定成功，但不努力更不會成功") { add("adventurer", 1); add("leader", 1); }
+        if (v === "要照顧好身體") add("adventurer", 1);
+        if (v === "朋友是人生重要的支柱") add("guide", 1);
+        if (v === "失敗是成長的一部分") { add("adventurer", 1); add("leader", 1); }
+        if (v === "信任要慢慢建立") add("guide", 1);
+        if (v === "世界很大，要多探索") { add("adventurer", 2); add("worldChanger", 1); }
+        if (v === "金錢重要，但不是全部") { add("organizer", 1); add("worldChanger", 1); }
+        if (v === "幫助別人也是成就自己") { add("guide", 1); add("worldChanger", 1); }
+      });
+
+      // 3. 同行夥伴（companions）
+      (state.selections.companions || []).forEach(c => {
+        if (c === "爺爺或奶奶" || c === "爸爸" || c === "媽媽") add("guide", 1);
+        if (c === "哥哥 / 姊姊" || c === "弟弟 / 妹妹") add("guide", 1);
+        if (c === "最知心的好朋友") add("guide", 1);
+        if (c === "一位啟發你的老師") { add("educator", 2); }
+        if (c === "一位總是支持你的前輩") { add("leader", 1); add("guide", 1); }
+        if (c === "一位你現在很在乎的對象") add("guide", 1);
+        if (c === "一位精神 / 信仰上的導師") { add("guide", 1); add("worldChanger", 1); }
+      });
+
+      // 4. 能量來源（energy）
+      (m.energy.selected || []).forEach(opt => {
+        if (opt.includes("教人、分享知識")) add("educator", 2);
+        if (opt.includes("解決問題、研究")) { add("innovator", 2); add("educator", 1); }
+        if (opt.includes("創作（寫作、畫畫、影片、音樂")) add("creator", 2);
+        if (opt.includes("幫助別人、陪伴某群人")) { add("guide", 2); add("worldChanger", 1); }
+        if (opt.includes("參與團隊、帶領活動")) { add("leader", 2); add("organizer", 1); }
+        if (opt.includes("運動、挑戰身體極限")) add("adventurer", 2);
+        if (opt.includes("寫程式、做產品、創新")) { add("innovator", 2); add("organizer", 1); }
+        if (opt.includes("規劃事情、讓混亂變整齊")) add("organizer", 2);
+        if (opt.includes("傾聽別人、支持他人情緒")) add("guide", 2);
+      });
+
+      // 5. 想照亮的對象（target）
+      (m.target.selected || []).forEach(opt => {
+        if (opt === "迷惘的青年") { add("guide", 1); add("educator", 1); add("worldChanger", 1); }
+        if (opt === "心靈受傷的人") add("guide", 2);
+        if (opt === "学生 / 兒童") { add("educator", 2); add("guide", 1); }
+        if (opt === "追夢的人") { add("leader", 1); add("adventurer", 1); }
+        if (opt === "家庭／朋友") add("guide", 1);
+        if (opt === "創作者") add("creator", 2);
+        if (opt === "社區或社團") { add("leader", 1); add("worldChanger", 1); }
+        if (opt === "科技與社會之間的橋樑") { add("innovator", 2); add("worldChanger", 1); }
+        if (opt === "地球與環境") { add("worldChanger", 2); }
+      });
+
+      // 6. 世界痛點（pains）
+      (m.painVision.pains || []).forEach(opt => {
+        if (opt === "孤單與無力感") { add("guide", 2); }
+        if (opt === "教育不平等") { add("educator", 2); add("worldChanger", 1); }
+        if (opt === "心理健康") { add("guide", 2); }
+        if (opt === "青年迷失、沒有方向") { add("guide", 1); add("educator", 1); }
+        if (opt === "科技與人性斷裂") { add("innovator", 2); add("worldChanger", 1); }
+        if (opt === "金錢焦慮與缺乏理財知識") { add("educator", 1); add("organizer", 1); }
+        if (opt === "環境議題") { add("worldChanger", 2); }
+        if (opt === "人際衝突") { add("guide", 1); add("leader", 1); }
+        if (opt === "自我認同困難") { add("guide", 2); }
+        if (opt === "社會的不公") { add("worldChanger", 2); }
+      });
+
+      // 7. 願景方向（vision）
+      const vision = m.painVision.vision || "";
+      if (vision === "成為能陪伴與療癒的人") add("guide", 3);
+      if (vision === "成為推動知識與教育的人") add("educator", 3);
+      if (vision === "成為創新與科技的橋樑") add("innovator", 3);
+      if (vision === "成為能帶領團隊的人") add("leader", 3);
+      if (vision === "成為自由、有選擇的人") add("adventurer", 3);
+      if (vision === "成為心靈富足的人") add("guide", 2);
+      if (vision === "成為改變世界的人") add("worldChanger", 3);
+      if (vision === "成為能創造美好作品的人") add("creator", 3);
+
+      // 8. 亮點時刻（bright moments）簡單關鍵字判讀
+      (m.bright.moments || []).forEach(text => {
+        const t = (text || "").toLowerCase();
+        if (!t) return;
+        if (t.includes("教") || t.includes("分享") || t.includes("講") || t.includes("帶讀")) add("educator", 1);
+        if (t.includes("安慰") || t.includes("陪") || t.includes("聽") || t.includes("療癒")) add("guide", 1);
+        if (t.includes("作品") || t.includes("畫") || t.includes("寫") || t.includes("影片") || t.includes("音樂")) add("creator", 1);
+        if (t.includes("帶隊") || t.includes("隊長") || t.includes("負責")) add("leader", 1);
+        if (t.includes("專案") || t.includes("系統") || t.includes("程式")) add("innovator", 1);
+        if (t.includes("規劃") || t.includes("整理") || t.includes("架構")) add("organizer", 1);
+        if (t.includes("挑戰") || t.includes("突破")) add("adventurer", 1);
+      });
+
+      // 平滑化處理：避免 M 型極端，讓非零分數落在 2~5 之間
+      let maxRaw = 0;
+      traitCategories.forEach(c => {
+        if (scores[c.id] > maxRaw) maxRaw = scores[c.id];
+      });
+      if (maxRaw === 0) {
+        return scores; // 全零就維持 0
+      }
+
+      const normalized = {};
+      traitCategories.forEach(c => {
+        const raw = scores[c.id];
+        if (raw <= 0) {
+          normalized[c.id] = 0;
+        } else {
+          const ratio = raw / maxRaw;   // 0~1
+          normalized[c.id] = 2 + Math.round(3 * ratio); // 2~5 的整數
+        }
+      });
+
+      return normalized;
+    }
+
+	// 根據特質分數產生稱號與一句描述
+function getArchetype(scores) {
+  // 1. 轉成陣列並排序
+  const scoreList = traitCategories.map(c => ({
+    id: c.id,
+    name: c.name,
+    score: scores[c.id] || 0
+  })).sort((a, b) => b.score - a.score);
+
+  // 過濾掉 0 分
+  const nonZero = scoreList.filter(x => x.score > 0);
+  if (nonZero.length === 0) {
+    return {
+      title: "潛力待啟動的星辰旅人",
+      subtitle: "你的特質分布還很平均，代表你有很多方向都還在萌芽階段。",
+      detail: "這不是『沒有特長』，而是你還在試著體驗各種角色。多去試、多去碰撞，你會慢慢看見哪一塊特別亮。"
+    };
+  }
+
+  // 2. 取前 3 名（如果有的話）
+  const top1 = nonZero[0];
+  const top2 = nonZero[1] || null;
+  const top3 = nonZero[2] || null;
+
+  const t1 = traitMeta[top1.id];
+  const t2 = top2 ? traitMeta[top2.id] : null;
+  const t3 = top3 ? traitMeta[top3.id] : null;
+
+  // 判斷分數差距（用來判斷是單核心、雙核心還是三核心）
+  const diff12 = top2 ? (top1.score - top2.score) : Number.POSITIVE_INFINITY;
+  const diff23 = top3 ? (top2.score - top3.score) : Number.POSITIVE_INFINITY;
+
+  let title = "";
+  let subtitle = "";
+  let detail = "";
+
+  // 只有明顯一個高分 → 單核型
+  if (!top2 || diff12 >= 2) {
+    title = `${t1.shortAdj}型${t1.roleNoun}`;
+    subtitle = `你是偏向「${t1.name}」特質的靈魂。`;
+    detail = t1.tagline;
+  }
+  // 前兩名接近，第三名較低 → 雙核心型
+  else if (!top3 || (diff12 <= 1 && diff23 >= 2)) {
+    title = `${t1.shortAdj}×${t2.shortAdj}型${t2.roleNoun}`;
+    subtitle = `你的靈魂同時站在「${t1.name}」與「${t2.name}」兩個軸心上。`;
+    detail =
+      `${t1.tagline} 同時，你也具備 ${t2.name} 的氣質：${t2.tagline}`;
+  }
+  // 三個都蠻接近 → 三核心型
+  else {
+    title = `${t1.shortAdj}×${t2.shortAdj}×${t3.shortAdj}型${t1.roleNoun}`;
+    subtitle =
+      `你在「${t1.name}」、「${t2.name}」、「${t3.name}」三個面向都有很明顯的能量。`;
+    detail =
+      `${t1.tagline} 再加上 ${t2.name} 的部分：${t2.tagline}，以及 ${t3.name} 的補強：${t3.tagline}。整體看起來，你是多核心的立體型靈魂。`;
+  }
+
+  return { title, subtitle, detail, top1, top2, top3 };
+}
+
+
+    function drawRadar(scores) {
+      const canvas = $("radar-canvas");
+      if (!canvas || !canvas.getContext) return;
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h / 2 + 10;
+      const maxRadius = Math.min(w, h) * 0.35;
+
+      const cats = traitCategories;
+      const n = cats.length;
+
+      let maxScore = 0;
+      cats.forEach(c => {
+        if (scores[c.id] > maxScore) maxScore = scores[c.id];
+      });
+      if (maxScore === 0) maxScore = 1;
+
+      ctx.strokeStyle = "rgba(255,255,255,0.2)";
+      ctx.lineWidth = 1;
+      const levels = 4;
+      for (let L = 1; L <= levels; L++) {
+        const r = maxRadius * (L / levels);
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+          const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+          const x = cx + Math.cos(angle) * r;
+          const y = cy + Math.sin(angle) * r;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      ctx.font = "11px 'Noto Sans TC'";
+      ctx.fillStyle = "rgba(248,244,255,0.85)";
+      cats.forEach((cat, i) => {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        const x = cx + Math.cos(angle) * maxRadius;
+        const y = cy + Math.sin(angle) * maxRadius;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = "rgba(255,255,255,0.18)";
+        ctx.stroke();
+
+        const labelX = cx + Math.cos(angle) * (maxRadius + 18);
+        const labelY = cy + Math.sin(angle) * (maxRadius + 18);
+        ctx.textAlign = labelX >= cx ? "left" : "right";
+        ctx.textBaseline = "middle";
+        ctx.fillText(cat.name, labelX, labelY);
+      });
+
+      ctx.beginPath();
+      cats.forEach((cat, i) => {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        const ratio = scores[cat.id] / maxScore;
+        const r = maxRadius * ratio;
+        const x = cx + Math.cos(angle) * r;
+        const y = cy + Math.sin(angle) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(245,206,106,0.28)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(245,206,106,0.9)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function handleJourneyEnd() {
+      showScreen("summary-screen");
+      buildSummary();
+    }
+
+    function buildSummary() {
+      const name = state.player.name || "旅人";
+      const gender = state.player.gender || "未填寫";
+      $("summary-intro").textContent =
+        `獻給：${name}｜性別：${gender}｜這一輪旅程的每一個選擇，都成為這份報告書的字句。`;
+
+      const gainedUnique = uniqueArray(state.journey.gained);
+      const lostUnique = uniqueArray(state.journey.lost);
+
+      const gainedDiv = $("summary-gained");
+      const lostDiv = $("summary-lost");
+      gainedDiv.innerHTML = "";
+      lostDiv.innerHTML = "";
+
+      if (gainedUnique.length === 0) {
+        const span = document.createElement("span");
+        span.textContent = "這次的旅程裡，你的獲得比較內斂，需要你自己慢慢回味。";
+        gainedDiv.appendChild(span);
+      } else {
+        gainedUnique.forEach(g => {
+          const span = document.createElement("span");
+          span.textContent = g;
+          gainedDiv.appendChild(span);
+        });
+      }
+
+      if (lostUnique.length === 0) {
+        const span = document.createElement("span");
+        span.textContent = "這次的旅程中，沒有被你明確標記為失去的事物。";
+        lostDiv.appendChild(span);
+      } else {
+        lostUnique.forEach(l => {
+          const span = document.createElement("span");
+          span.textContent = l;
+          lostDiv.appendChild(span);
+        });
+      }
+
+      const coreDiv = $("summary-core-values");
+      coreDiv.innerHTML = "";
+      const baseValues = uniqueArray(state.selections.values);
+      if (baseValues.length > 0) {
+        baseValues.forEach(v => {
+          const span = document.createElement("span");
+          span.textContent = v;
+          coreDiv.appendChild(span);
+        });
+      }
+
+      const energySel = state.missions.energy.selected || [];
+      if (energySel.length > 0) {
+        const span = document.createElement("span");
+        span.textContent = `你會從「${energySel.join("、")}」這些事情中獲得能量。`;
+        coreDiv.appendChild(span);
+      }
+
+      if (state.missions.painVision.pains && state.missions.painVision.pains.length > 0) {
+        const span = document.createElement("span");
+        span.textContent = `你對「${state.missions.painVision.pains.join("、")}」這類議題特別有感。`;
+        coreDiv.appendChild(span);
+      }
+
+      if (state.reflections[0] && state.reflections[0].trim()) {
+        const span = document.createElement("span");
+        span.textContent = `你在旅程中寫下的價值提醒：${state.reflections[0].trim()}`;
+        coreDiv.appendChild(span);
+      }
+
+      if (coreDiv.children.length === 0) {
+        const span = document.createElement("span");
+        span.textContent = "你還沒有明確寫下自己的價值，但沒關係，這只是起點。";
+        coreDiv.appendChild(span);
+      }
+
+      const visionDiv = $("summary-vision");
+      visionDiv.innerHTML = "";
+      const pv = state.missions.painVision;
+      let visionText = pv.vision || pv.visionOther || "";
+      if (visionText.trim()) {
+        const span = document.createElement("span");
+        span.textContent = visionText;
+        visionDiv.appendChild(span);
+      } else {
+        const span = document.createElement("span");
+        span.textContent = "這次你還沒有為自己取一個願景身份，下次旅程可以試試看。";
+        visionDiv.appendChild(span);
+      }
+
+      const seizeDiv = $("summary-seize");
+      seizeDiv.innerHTML = "";
+      const toSeize = pickLastUnique(state.journey.gained, 3);
+      if (toSeize.length === 0) {
+        const span = document.createElement("span");
+        span.textContent = "你可以回頭看看：哪幾件事讓你特別有感？那往往就是你現在該把握的線索。";
+        seizeDiv.appendChild(span);
+      } else {
+        toSeize.forEach(s => {
+          const span = document.createElement("span");
+          span.textContent = s;
+          seizeDiv.appendChild(span);
+        });
+      }
+
+      $("summary-ref1").textContent =
+        state.reflections[0] || "（這次你沒有寫下，但你可以在心裡默默回答。）";
+      $("summary-ref2").textContent =
+        state.reflections[1] || "（你最想照亮的是誰？也許你的心裡其實早就有答案。）";
+      $("summary-ref3").textContent =
+        state.reflections[2] || "（「我存在，是為了……」這句話，可以慢慢長大，不急著一次說完。）";
+
+      const logDiv = $("summary-log");
+      logDiv.innerHTML = "";
+      state.journey.log.forEach(entry => {
+        const p = document.createElement("p");
+        p.textContent = entry;
+        logDiv.appendChild(p);
+      });
+
+      const scores = computeTraitScores();
+      drawRadar(scores);
+
+const archetype = getArchetype(scores);
+
+// 顯示稱號
+const archTitleDiv = $("summary-archetype-title");
+const archSubtitleP = $("summary-archetype-subtitle");
+const archDetailP = $("summary-archetype-detail");
+
+archTitleDiv.innerHTML = "";
+const titleSpan = document.createElement("span");
+titleSpan.textContent = archetype.title;
+archTitleDiv.appendChild(titleSpan);
+
+archSubtitleP.textContent = archetype.subtitle;
+archDetailP.textContent = archetype.detail;
+
+
+      const strengthsDiv = $("summary-strengths");
+      strengthsDiv.innerHTML = "";
+      const strengthList = traitCategories
+        .map(c => ({ id: c.id, name: c.name, desc: c.desc, score: scores[c.id] || 0 }))
+        .filter(x => x.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
+
+      if (strengthList.length === 0) {
+        const span = document.createElement("span");
+        span.textContent = "這一輪的選擇還看不出明顯的特質走向，但你本身就是一顆還在成形的星星。";
+        strengthsDiv.appendChild(span);
+      } else {
+        strengthList.forEach(s => {
+          const span = document.createElement("span");
+          span.textContent = `【${s.name}】${s.desc}`;
+          strengthsDiv.appendChild(span);
+        });
+      }
+    }
+
+    // =============================
+    // Event Bindings
+    // =============================
+    function init() {
+      renderCheckboxGroup("abilities-group", abilitiesOptions, "abilities");
+      renderCheckboxGroup("values-group", valueOptions, "values");
+      renderCheckboxGroup("companions-group", companionOptions, "companions");
+
+      document.addEventListener("change", (e) => {
+        if (["abilities", "values", "companions"].includes(e.target.name)) {
+          updateCounters();
+        }
+      });
+
+      $("btn-start").addEventListener("click", () => {
+        const name = $("player-name").value.trim();
+        const genderRadio = document.querySelector("input[name='gender']:checked");
+        const gender = genderRadio ? genderRadio.value : "";
+        const decl = $("declaration").value.trim();
+
+        state.player.name = name || "旅人";
+        state.player.gender = gender || "未填寫";
+        state.player.declaration = decl;
+
+        showScreen("setup-screen");
+      });
+
+      $("btn-back-start").addEventListener("click", () => {
+        showScreen("start-screen");
+      });
+
+      $("btn-begin-journey").addEventListener("click", () => {
+        const abilities = getCheckedValues("abilities");
+        const values = getCheckedValues("values");
+        const companions = getCheckedValues("companions");
+
+        if (abilities.length !== 3 || values.length !== 3 || companions.length !== 3) {
+          alert("請確定三個區塊都各選擇「三項」再出發喔。");
+          return;
+        }
+
+        state.selections.abilities = abilities;
+        state.selections.values = values;
+        state.selections.companions = companions;
+
+        $("mini-log").innerHTML = "";
+        appendLog(`出發前，你選擇的能力是：${abilities.join("、")}。`);
+        appendLog(`你目前比較認同的觀念是：${values.join("、")}。`);
+        appendLog(`在你心裡的重要夥伴有：${companions.join("、")}。`);
+
+        state.journey.currentIndex = 0;
+        state.missionQueue = shuffle(missionBlocks);
+        showScreen("journey-screen");
+        renderScenario();
+      });
+
+      $("btn-reflection-continue").addEventListener("click", () => {
+        finishReflection();
+      });
+
+      $("btn-mission-continue").addEventListener("click", () => {
+        saveCurrentMission();
+        state.currentMission = null;
+        showScreen("journey-screen");
+        renderScenario();
+      });
+
+      $("btn-restart").addEventListener("click", () => {
+        stopTimer();
+        resetState();
+        showScreen("start-screen");
+      });
+
+      $("btn-toggle-reflections").addEventListener("click", () => {
+        const panel = $("detail-reflections");
+        panel.style.display = panel.style.display === "none" ? "block" : "none";
+      });
+
+      $("btn-toggle-log").addEventListener("click", () => {
+        const panel = $("detail-log");
+        panel.style.display = panel.style.display === "none" ? "block" : "none";
+      });
+
+      $("card-close").addEventListener("click", () => {
+        closeCardModal();
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
